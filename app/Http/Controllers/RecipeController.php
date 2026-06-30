@@ -33,4 +33,29 @@ class RecipeController extends Controller
 
         return redirect()->route('recipes.index')->with('status', 'Resep berhasil disimpan ke dalam koleksi Anda!');
     }
+
+    public function show(Recipe $recipe)
+    {
+        return view('recipes.show', compact('recipe'));
+    }
+
+    public function update(Request $request, Recipe $recipe)
+    {
+        $request->validate([
+            'notes' => 'nullable|string',
+        ]);
+
+        $recipe->update([
+            'notes' => $request->notes,
+        ]);
+
+        return redirect()->route('recipes.show', $recipe->id)->with('status', 'Catatan berhasil diperbarui!');
+    }
+
+    public function destroy(Recipe $recipe)
+    {
+        $recipe->delete();
+
+        return redirect()->route('recipes.index')->with('status', 'Resep berhasil dihapus dari koleksi.');
+    }
 }
