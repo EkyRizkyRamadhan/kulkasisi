@@ -9,6 +9,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 // Bungkus route dengan middleware auth agar wajib login
 Route::middleware('auth')->group(function () {
     // Route Generator Resep
