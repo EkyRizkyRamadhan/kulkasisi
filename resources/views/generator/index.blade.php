@@ -1,0 +1,80 @@
+<x-app-layout>
+    <div class="py-12 bg-gray-950 min-h-screen text-gray-100">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
+            
+            <div class="mb-6 px-4 sm:px-0">
+                <h2 class="text-3xl font-extrabold text-white tracking-tight">
+                    Isi<span class="text-indigo-500">Kulkas</span> AI
+                </h2>
+                <p class="text-gray-400 mt-2">Ubah bahan makanan yang tersisa menjadi ide resep masakan matang yang lezat.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 px-4 sm:px-0">
+                <div class="w-full lg:col-span-1">
+                    <div class="bg-gray-900 rounded-3xl shadow-xl border border-gray-800 p-6 sticky top-24">
+                        <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                            <svg class="w-6 h-6 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                            Bahan Tersedia
+                        </h3>
+
+                        <form action="{{ route('generator.generate') }}" method="POST" class="space-y-4">
+                            @csrf
+                            <div>
+                                <label for="ingredients" class="block text-sm font-medium text-gray-400 mb-2">Masukkan semua bahan (pisahkan dengan koma)</label>
+                                <textarea name="ingredients" id="ingredients" rows="4" placeholder="Contoh: Telur, Nasi, Sosis, Bawang Merah, Cabai" class="w-full bg-gray-950 border border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl text-white placeholder-gray-600 resize-none py-3 px-4 shadow-inner" required>{{ $ingredients ?? old('ingredients') }}</textarea>
+                                <x-input-error :messages="$errors->get('ingredients')" class="mt-2" />
+                            </div>
+
+                            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition duration-300 shadow-lg shadow-indigo-600/30 flex items-center justify-center transform hover:-translate-y-0.5">
+                                Generate Ide Resep
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="w-full lg:col-span-2">
+                    <div class="bg-gray-900 rounded-3xl shadow-xl border border-gray-800 p-6 md:p-8 min-h-[300px] flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-6 border-b border-gray-800 pb-4">Rekomendasi Resep Kreatif</h3>
+                            
+                            @if(isset($result))
+                                <div class="text-gray-300 text-sm sm:text-base leading-relaxed whitespace-pre-wrap text-justify bg-gray-950 border border-gray-800 p-6 rounded-2xl">
+                                    {{ $result }}
+                                </div>
+                            @else
+                                <div class="text-center py-16 text-gray-500">
+                                    <svg class="w-16 h-16 mx-auto mb-4 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                                    <p class="font-medium">Belum ada bahan yang di-generate.</p>
+                                    <p class="text-xs text-gray-600 mt-1">Masukkan sisa bahan kulkasmu di kolom sebelah kiri.</p>
+                                </div>
+                            @endif
+                        </div>
+
+                        @if(isset($result))
+                            <div class="mt-8 pt-6 border-t border-gray-800">
+                                <form action="{{ route('recipes.store') }}" method="POST" class="space-y-4">
+                                    @csrf
+                                    <input type="hidden" name="ingredients" value="{{ $ingredients }}">
+                                    <input type="hidden" name="instructions" value="{{ $result }}">
+                                    
+                                    <div class="flex flex-col sm:flex-row gap-4 items-end">
+                                        <div class="flex-1 w-full">
+                                            <label for="title" class="block text-sm font-medium text-gray-400 mb-2">Beri Nama Koleksi Resep Ini</label>
+                                            <input type="text" name="title" id="title" required placeholder="Misal: 3 Kreasi Olahan Nasi Sosis Sisa" class="w-full bg-gray-950 border border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl text-white py-3 px-4 shadow-sm">
+                                        </div>
+                                        <button type="submit" class="w-full sm:w-auto px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition duration-300 shadow-md flex items-center justify-center whitespace-nowrap">
+                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                                            Simpan ke Koleksi
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        @endif
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</x-app-layout>
