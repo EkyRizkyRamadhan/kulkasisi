@@ -17,6 +17,12 @@
                             Bahan Tersedia
                         </h3>
 
+                        @if(session('error'))
+                            <div class="mb-4 p-4 bg-red-900/50 border border-red-700 rounded-xl text-red-300 text-sm">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
                         <form action="{{ route('generator.generate') }}" method="POST" class="space-y-4">
                             @csrf
                             <div>
