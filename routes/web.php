@@ -17,7 +17,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     // Route Generator Resep
     Route::get('/generator', [GeneratorController::class, 'index'])->name('generator.index');
-    Route::post('/generator', [GeneratorController::class, 'generate'])->name('generator.generate');
+    Route::post('/generator', [GeneratorController::class, 'generate'])->middleware('throttle:generator')->name('generator.generate');
     
     // Route CRUD Resep (Koleksi Resep)
     Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
