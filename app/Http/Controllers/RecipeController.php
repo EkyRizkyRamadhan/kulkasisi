@@ -9,10 +9,21 @@ use Illuminate\Support\Facades\Auth;
 class RecipeController extends Controller
 {
     // READ: Menampilkan daftar resep yang disimpan oleh user saat ini
-    public function index()
+    public function index(Request $request)
     {
-        $recipes = Recipe::where('user_id', Auth::id())->latest()->get();
-        return view('recipes.index', compact('recipes'));
+        $search = $request->query('search');
+
+        $recipes = Recipe::where('user_id', Auth::id())
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                      ->orWhere('ingredients', 'like', "%{$search}%");
+                });
+            })
+            ->latest()
+            ->get();
+
+        return view('recipes.index', compact('recipes', 'search'));
     }
 
     // CREATE: Menyimpan resep baru ke dalam database lokal
