@@ -41,19 +41,32 @@ class RecipeController extends Controller
         return view('recipes.show', compact('recipe'));
     }
 
+    public function edit(Recipe $recipe)
+    {
+        $this->authorize('update', $recipe);
+
+        return view('recipes.edit', compact('recipe'));
+    }
+
     public function update(Request $request, Recipe $recipe)
     {
         $this->authorize('update', $recipe);
 
         $request->validate([
+            'title' => 'required|string|max:255',
+            'ingredients' => 'required|string',
+            'instructions' => 'required|string',
             'notes' => 'nullable|string',
         ]);
 
         $recipe->update([
+            'title' => $request->title,
+            'ingredients' => $request->ingredients,
+            'instructions' => $request->instructions,
             'notes' => $request->notes,
         ]);
 
-        return redirect()->route('recipes.show', $recipe->id)->with('status', 'Catatan berhasil diperbarui!');
+        return redirect()->route('recipes.show', $recipe->id)->with('status', 'Resep berhasil diperbarui!');
     }
 
     public function destroy(Recipe $recipe)
