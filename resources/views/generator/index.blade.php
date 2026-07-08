@@ -27,7 +27,7 @@
                             @csrf
                             <div>
                                 <label for="ingredients" class="block text-sm font-medium text-slate-700 mb-2">Masukkan semua bahan (pisahkan dengan koma)</label>
-                                <textarea name="ingredients" id="ingredients" rows="4" placeholder="Contoh: Telur, Nasi, Sosis, Bawang Merah, Cabai" class="w-full bg-stone-50 border border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl text-slate-900 placeholder-slate-400 resize-none py-3 px-4 shadow-sm" required :disabled="loading">{{ $ingredients ?? old('ingredients') }}</textarea>
+                                <textarea name="ingredients" id="ingredients" rows="4" placeholder="Contoh: Telur, Nasi, Sosis, Bawang Merah, Cabai" class="w-full bg-stone-50 border border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl text-slate-900 placeholder-slate-400 resize-none py-3 px-4 shadow-sm" required x-bind:readonly="loading">{{ $ingredients ?? old('ingredients') }}</textarea>
                                 <x-input-error :messages="$errors->get('ingredients')" class="mt-2" />
                             </div>
 
