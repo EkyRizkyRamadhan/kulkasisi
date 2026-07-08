@@ -13,8 +13,8 @@
     <body class="font-sans text-slate-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-stone-50">
             <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-emerald-600" />
+                <a href="/" class="text-2xl font-black text-emerald-600 tracking-tight">
+                    IsiKulkas
                 </a>
             </div>
 
