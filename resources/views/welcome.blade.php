@@ -43,7 +43,7 @@
                     </a>
                 @else
                     <a href="{{ route('login') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 hover:bg-emerald-700 text-white text-lg font-bold rounded-2xl transition duration-300 shadow-lg shadow-emerald-600/20">
-                        Log in
+                        Masuk
                     </a>
 
                     @if (Route::has('register'))
@@ -58,7 +58,7 @@
 
     <!-- Footer -->
     <div class="absolute bottom-6 w-full text-center text-slate-500 text-sm font-medium">
-        &copy; {{ date('Y') }} IsiKulkas AI. Powered by Laravel & Gemini.
+        &copy; {{ date('Y') }} IsiKulkas AI. Didukung oleh Laravel &amp; Groq.
     </div>
 </body>
 </html>
