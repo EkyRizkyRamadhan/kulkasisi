@@ -23,16 +23,18 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('generator.generate') }}" method="POST" class="space-y-4">
+                        <form action="{{ route('generator.generate') }}" method="POST" class="space-y-4" x-data="{ loading: false }" @submit="loading = true">
                             @csrf
                             <div>
                                 <label for="ingredients" class="block text-sm font-medium text-gray-400 mb-2">Masukkan semua bahan (pisahkan dengan koma)</label>
-                                <textarea name="ingredients" id="ingredients" rows="4" placeholder="Contoh: Telur, Nasi, Sosis, Bawang Merah, Cabai" class="w-full bg-gray-950 border border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl text-white placeholder-gray-600 resize-none py-3 px-4 shadow-inner" required>{{ $ingredients ?? old('ingredients') }}</textarea>
+                                <textarea name="ingredients" id="ingredients" rows="4" placeholder="Contoh: Telur, Nasi, Sosis, Bawang Merah, Cabai" class="w-full bg-gray-950 border border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl text-white placeholder-gray-600 resize-none py-3 px-4 shadow-inner" required :disabled="loading">{{ $ingredients ?? old('ingredients') }}</textarea>
                                 <x-input-error :messages="$errors->get('ingredients')" class="mt-2" />
                             </div>
 
-                            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition duration-300 shadow-lg shadow-indigo-600/30 flex items-center justify-center transform hover:-translate-y-0.5">
-                                Generate Ide Resep
+                            <button type="submit" :disabled="loading" class="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-800 disabled:cursor-not-allowed disabled:hover:bg-indigo-800 disabled:hover:-translate-y-0 text-white font-bold py-3.5 rounded-xl transition duration-300 shadow-lg shadow-indigo-600/30 flex items-center justify-center transform hover:-translate-y-0.5">
+                                <svg x-cloak x-show="loading" class="w-5 h-5 mr-2 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                                <span x-show="!loading">Generate Ide Resep</span>
+                                <span x-cloak x-show="loading">Memproses...</span>
                             </button>
                         </form>
                     </div>
