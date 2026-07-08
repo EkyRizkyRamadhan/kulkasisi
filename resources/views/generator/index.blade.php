@@ -45,9 +45,48 @@
                         <div>
                             <h3 class="text-xl font-bold text-white mb-6 border-b border-gray-800 pb-4">Rekomendasi Resep Kreatif</h3>
                             
-                            @if(isset($result))
-                                <div class="text-gray-300 text-sm sm:text-base leading-relaxed whitespace-pre-wrap text-justify bg-gray-950 border border-gray-800 p-6 rounded-2xl">
-                                    {{ $result }}
+                            @if(isset($recipes))
+                                <div class="space-y-6">
+                                    @foreach($recipes as $index => $recipe)
+                                        <div class="bg-gray-950 border border-gray-800 rounded-2xl p-6">
+                                            <div class="flex items-start justify-between gap-4 mb-4">
+                                                <h4 class="text-lg font-bold text-indigo-400">{{ $loop->iteration }}. {{ $recipe['name'] }}</h4>
+                                            </div>
+
+                                            @if(!empty($recipe['additional_ingredients']))
+                                                <div class="mb-4">
+                                                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Bahan Tambahan:</p>
+                                                    <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">
+                                                        @foreach($recipe['additional_ingredients'] as $item)
+                                                            <li>{{ $item }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+
+                                            <div class="mb-4">
+                                                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Langkah Memasak:</p>
+                                                <ol class="list-decimal list-inside text-sm text-gray-300 space-y-1.5">
+                                                    @foreach($recipe['steps'] as $step)
+                                                        <li>{{ $step }}</li>
+                                                    @endforeach
+                                                </ol>
+                                            </div>
+
+                                            <div class="mt-4 pt-4 border-t border-gray-800">
+                                                <form action="{{ route('recipes.store') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="title" value="{{ $recipe['name'] }}">
+                                                    <input type="hidden" name="ingredients" value="{{ $ingredients }}{{ !empty($recipe['additional_ingredients']) ? ', ' . implode(', ', $recipe['additional_ingredients']) : '' }}">
+                                                    <input type="hidden" name="instructions" value="{{ implode("\n", $recipe['steps']) }}">
+                                                    <button type="submit" class="w-full px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition duration-300 shadow-md flex items-center justify-center text-sm">
+                                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                                                        Simpan Resep Ini
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
                             @else
                                 <div class="text-center py-16 text-gray-500">
@@ -57,27 +96,6 @@
                                 </div>
                             @endif
                         </div>
-
-                        @if(isset($result))
-                            <div class="mt-8 pt-6 border-t border-gray-800">
-                                <form action="{{ route('recipes.store') }}" method="POST" class="space-y-4">
-                                    @csrf
-                                    <input type="hidden" name="ingredients" value="{{ $ingredients }}">
-                                    <input type="hidden" name="instructions" value="{{ $result }}">
-                                    
-                                    <div class="flex flex-col sm:flex-row gap-4 items-end">
-                                        <div class="flex-1 w-full">
-                                            <label for="title" class="block text-sm font-medium text-gray-400 mb-2">Beri Nama Koleksi Resep Ini</label>
-                                            <input type="text" name="title" id="title" required placeholder="Misal: 3 Kreasi Olahan Nasi Sosis Sisa" class="w-full bg-gray-950 border border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl text-white py-3 px-4 shadow-sm">
-                                        </div>
-                                        <button type="submit" class="w-full sm:w-auto px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition duration-300 shadow-md flex items-center justify-center whitespace-nowrap">
-                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
-                                            Simpan ke Koleksi
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        @endif
 
                     </div>
                 </div>

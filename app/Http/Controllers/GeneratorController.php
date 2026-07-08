@@ -28,8 +28,17 @@ class GeneratorController extends Controller
         }
 
         $prompt = "Saya memiliki bahan-bahan masakan berikut: " . $ingredients . ". 
-        Tolong berikan 3 ide resep masakan kreatif yang bisa saya buat dengan bahan-bahan tersebut. 
-        Format jawaban harus rapi dengan memisahkan Nama Resep, Bahan Tambahan (jika ada), dan Langkah-langkah Memasak.";
+        Berikan 3 ide resep masakan kreatif yang bisa saya buat dengan bahan-bahan tersebut.
+        Jawab dalam format JSON dengan struktur berikut, dan jangan sertakan teks lain di luar JSON:
+        {
+          \"recipes\": [
+            {
+              \"name\": \"Nama Resep\",
+              \"additional_ingredients\": [\"Bahan tambahan 1\", \"Bahan tambahan 2\"],
+              \"steps\": [\"Langkah 1\", \"Langkah 2\", \"Langkah 3\"]
+            }
+          ]
+        }";
 
         try {
             $response = Http::withHeaders([
@@ -46,12 +55,19 @@ class GeneratorController extends Controller
 
             if ($response->successful()) {
                 $data = $response->json();
-                $result = $data['choices'][0]['message']['content'] ?? null;
+                $content = $data['choices'][0]['message']['content'] ?? null;
 
-                if ($result) {
+                if ($content) {
+                    $recipes = json_decode($content, true);
+
+                    if (json_last_error() !== JSON_ERROR_NONE || !isset($recipes['recipes'])) {
+                        Log::warning('Groq tidak mengembalikan JSON valid', ['content' => $content]);
+                        return back()->with('error', 'AI tidak mengembalikan format yang valid. Coba lagi.');
+                    }
+
                     return view('generator.index', [
                         'ingredients' => $ingredients,
-                        'result' => $result
+                        'recipes' => $recipes['recipes'],
                     ]);
                 }
 
