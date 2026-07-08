@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\GeneratorController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RecipeController; // Import RecipeController
+use App\Http\Controllers\RecipeController;
+use App\Models\Recipe;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -10,7 +12,10 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $recipes = Recipe::where('user_id', Auth::id())->latest()->take(5)->get();
+    $totalRecipes = Recipe::where('user_id', Auth::id())->count();
+
+    return view('dashboard', compact('recipes', 'totalRecipes'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Bungkus route dengan middleware auth agar wajib login
