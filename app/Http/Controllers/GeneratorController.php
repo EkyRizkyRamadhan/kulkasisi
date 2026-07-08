@@ -44,7 +44,7 @@ class GeneratorController extends Controller
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $apiKey,
                 'Content-Type' => 'application/json',
-            ])->timeout(30)->post('https://api.groq.com/openai/v1/chat/completions', [
+            ])->timeout(120)->post('https://api.groq.com/openai/v1/chat/completions', [
                 'model' => $model,
                 'messages' => [
                     ['role' => 'user', 'content' => $prompt],

@@ -16,7 +16,7 @@ Route::get('/dashboard', function () {
     $totalRecipes = Recipe::where('user_id', Auth::id())->count();
 
     return view('dashboard', compact('recipes', 'totalRecipes'));
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 // Bungkus route dengan middleware auth agar wajib login
 Route::middleware('auth')->group(function () {
