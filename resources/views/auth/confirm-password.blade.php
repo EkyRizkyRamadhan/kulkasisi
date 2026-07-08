@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
+    <div class="mb-4 text-sm text-slate-600">
         Ini adalah area aman aplikasi. Harap konfirmasi kata sandi Anda sebelum melanjutkan.
     </div>
 

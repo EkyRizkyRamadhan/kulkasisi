@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
+    <div class="mb-4 text-sm text-slate-600">
         Terima kasih telah mendaftar! Sebelum memulai, bisakah Anda verifikasi alamat email dengan mengklik tautan yang baru saja kami kirimkan? Jika tidak menerima email, kami akan dengan senang hati mengirimkan ulang.
     </div>
 
@@ -21,7 +21,7 @@
 
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button type="submit" class="underline text-sm text-slate-600 hover:text-slate-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                 Keluar
             </button>
         </form>
