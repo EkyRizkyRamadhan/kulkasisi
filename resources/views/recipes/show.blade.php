@@ -54,9 +54,14 @@
                             <svg class="w-5 h-5 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                             Panduan Langkah Memasak
                         </h3>
-                        <div class="text-slate-700 text-sm sm:text-base leading-relaxed whitespace-pre-wrap text-justify bg-stone-50 border border-slate-200 p-6 rounded-xl">
-                            {{ $recipe->instructions }}
-                        </div>
+                        <ol class="list-decimal pl-5 space-y-2 text-left text-slate-700 text-sm sm:text-base leading-relaxed bg-stone-50 border border-slate-200 p-6 rounded-xl">
+                            @php($steps = explode("\n", $recipe->instructions))
+                            @foreach ($steps as $step)
+                                @if (trim($step))
+                                    <li class="pl-1">{{ trim($step) }}</li>
+                                @endif
+                            @endforeach
+                        </ol>
                     </div>
 
                     <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
@@ -65,8 +70,15 @@
                             Catatan Modifikasi Anda
                         </h3>
                         <p class="text-xs text-slate-400 mb-4">Catatan ini hanya bisa diedit melalui halaman edit resep.</p>
-                        <div class="bg-stone-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
-                            {{ $recipe->notes ?: 'Belum ada catatan modifikasi.' }}
+                        <div class="bg-stone-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-700 leading-relaxed" style="text-align: left;">
+                            @if ($recipe->notes)
+                                @php($notes = explode("\n", $recipe->notes))
+                                @foreach ($notes as $line)
+                                    {{ trim($line) }}<br>
+                                @endforeach
+                            @else
+                                Belum ada catatan modifikasi.
+                            @endif
                         </div>
                     </div>
 
