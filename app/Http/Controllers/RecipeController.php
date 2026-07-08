@@ -36,11 +36,15 @@ class RecipeController extends Controller
 
     public function show(Recipe $recipe)
     {
+        $this->authorize('view', $recipe);
+
         return view('recipes.show', compact('recipe'));
     }
 
     public function update(Request $request, Recipe $recipe)
     {
+        $this->authorize('update', $recipe);
+
         $request->validate([
             'notes' => 'nullable|string',
         ]);
@@ -54,6 +58,8 @@ class RecipeController extends Controller
 
     public function destroy(Recipe $recipe)
     {
+        $this->authorize('delete', $recipe);
+
         $recipe->delete();
 
         return redirect()->route('recipes.index')->with('status', 'Resep berhasil dihapus dari koleksi.');
