@@ -64,20 +64,10 @@
                             <svg class="w-5 h-5 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                             Catatan Modifikasi Anda
                         </h3>
-                        <p class="text-xs text-slate-400 mb-4">Tambahkan takaran bumbu tambahan, eksperimen bahan, atau kekurangan rasa untuk acuan memasak berikutnya.</p>
-
-                        <form action="{{ route('recipes.update', $recipe->id) }}" method="POST" class="space-y-4">
-                            @csrf
-                            @method('PUT')
-                            <div>
-                                <textarea name="notes" id="notes" rows="3" placeholder="Contoh: Tambah kecap manis 2 sendok makan biar makin mantap, kurangi cabai kalau dimasak buat adik." class="w-full bg-stone-50 border border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl text-slate-900 placeholder-slate-400 resize-none py-3 px-4 shadow-sm text-sm">{{ $recipe->notes }}</textarea>
-                            </div>
-                            <div class="flex justify-end">
-                                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2.5 rounded-xl transition duration-300 shadow-sm">
-                                    Simpan Catatan
-                                </button>
-                            </div>
-                        </form>
+                        <p class="text-xs text-slate-400 mb-4">Catatan ini hanya bisa diedit melalui halaman edit resep.</p>
+                        <div class="bg-stone-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                            {{ $recipe->notes ?: 'Belum ada catatan modifikasi.' }}
+                        </div>
                     </div>
 
                 </div>
