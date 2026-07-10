@@ -15,7 +15,7 @@
                         </div>
                         <div>
                             <p class="text-3xl font-black text-slate-900">{{ $totalRecipes }}</p>
-                            <p class="text-sm text-slate-500">Resep Tersimpan</p>
+                            <p class="text-sm text-slate-500">Resep Tersimpann</p>
                         </div>
                     </div>
                 </div>

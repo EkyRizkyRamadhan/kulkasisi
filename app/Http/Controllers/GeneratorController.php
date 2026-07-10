@@ -29,13 +29,14 @@ class GeneratorController extends Controller
 
         $prompt = "Saya memiliki bahan-bahan masakan berikut: " . $ingredients . ". 
         Berikan 3 ide resep masakan kreatif yang bisa saya buat dengan bahan-bahan tersebut.
+        Setiap resep harus memiliki minimal 5 langkah memasak yang detail dan jelas.
         Jawab dalam format JSON dengan struktur berikut, dan jangan sertakan teks lain di luar JSON:
         {
           \"recipes\": [
             {
               \"name\": \"Nama Resep\",
               \"additional_ingredients\": [\"Bahan tambahan 1\", \"Bahan tambahan 2\"],
-              \"steps\": [\"Langkah 1\", \"Langkah 2\", \"Langkah 3\"]
+              \"steps\": [\"Langkah 1 yang detail\", \"Langkah 2 yang detail\", \"Langkah 3 yang detail\", \"Langkah 4 yang detail\", \"Langkah 5 yang detail\"]
             }
           ]
         }";
